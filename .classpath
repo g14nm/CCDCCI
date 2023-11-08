@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/commons-lang3-3.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/slf4j-api-2.0.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/slf4j-simple-2.0.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/commons-8.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/io-8.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/kernel-8.0.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/layout-8.0.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
