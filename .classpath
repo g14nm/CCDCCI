@@ -9,6 +9,7 @@
 	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/io-8.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/kernel-8.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/iText-Core-8.0.1-only-jars/layout-8.0.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/apache-log4j-2.21.1-bin/log4j-1.2-api-2.21.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/apache-log4j-2.21.1-bin/log4j-api-2.21.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gianm/Desktop/Betacom/javalib/apache-log4j-2.21.1-bin/log4j-core-2.21.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
