@@ -18,7 +18,7 @@ public abstract class Conto {
 	private double interessiTotali;
 	private double saldo;
 	private List<Movimento> movimenti;
-	private Map<Integer, Double> interessi;
+	private Map<Integer, Double> interessiFineAnno;
 	
 	private static final int BONUS_APERTURA = 1000;
 	private static final int TASSAZIONE = 26;
@@ -28,7 +28,7 @@ public abstract class Conto {
 		this.tassoInteresseGiornaliero = tassoInteresseAnnuo / 365;
 		this.interessiTotali = 0;
 		this.movimenti = new ArrayList<Movimento>();
-		this.interessi = new HashMap<Integer, Double>();
+		this.interessiFineAnno = new HashMap<Integer, Double>();
 		this.apri(dataApertura);
 	}
 	
@@ -79,7 +79,7 @@ public abstract class Conto {
 		this.movimenti.forEach(movimento -> {
 			if(!movimento.getTipoMovimento().equals(TipoMovimento.APERTURA)) {
 				this.interessiTotali = FormattatoreDouble.formatta(this.interessiTotali + calcolaInteresseTraMovimenti(movimento, movimenti.get(movimenti.indexOf(movimento) - 1)));
-				this.interessi.put(movimento.getData().getYear(), this.interessiTotali);
+				this.interessiFineAnno.put(movimento.getData().getYear(), this.interessiTotali);
 			}
 		});
 	}
@@ -104,11 +104,11 @@ public abstract class Conto {
 	
 	public double getInteressiLordiAnno(int anno) {
 		if(anno == LocalDate.now().getYear()) return this.interessiTotali;
-		return this.interessi.get(anno);
+		return this.interessiFineAnno.get(anno);
 	}
 	
 	public double calcolaInteressiNettiAnno(int anno) {
-		return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) - FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessi.get(anno) * TASSAZIONE)) / 100));
+		return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) - FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessiFineAnno.get(anno) * TASSAZIONE)) / 100));
 	}
 	
 	public double calcolaSaldoFinaleAnno(int anno) {
