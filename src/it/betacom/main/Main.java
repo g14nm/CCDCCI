@@ -22,15 +22,17 @@ public class Main {
 		deposito.chiudi(LocalDate.now());
 		investimento.chiudi(LocalDate.now());
 		
-		EsportazioneBolletta.stampaBollettaSuConsole(corrente, 2021);
-		EsportazioneBolletta.stampaBollettaSuConsole(corrente, 2022);
-		EsportazioneBolletta.stampaBollettaSuConsole(corrente, 2023);
-		EsportazioneBolletta.stampaBollettaSuConsole(deposito, 2021);
-		EsportazioneBolletta.stampaBollettaSuConsole(deposito, 2022);
-		EsportazioneBolletta.stampaBollettaSuConsole(deposito, 2023);
 		EsportazioneBolletta.creaBollettaInPdf(corrente, 2021);
 		EsportazioneBolletta.creaBollettaInPdf(corrente, 2022);
 		EsportazioneBolletta.creaBollettaInPdf(corrente, 2023);
+		
+		EsportazioneBolletta.creaBollettaInPdf(deposito, 2021);
+		EsportazioneBolletta.creaBollettaInPdf(deposito, 2022);
+		EsportazioneBolletta.creaBollettaInPdf(deposito, 2023);
+		
+		EsportazioneBolletta.creaBollettaInPdf(investimento, 2021);
+		EsportazioneBolletta.creaBollettaInPdf(investimento, 2022);
+		EsportazioneBolletta.creaBollettaInPdf(investimento, 2023);
 	}
 	
 }
