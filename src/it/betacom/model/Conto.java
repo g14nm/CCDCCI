@@ -1,12 +1,16 @@
 package it.betacom.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import it.betacom.util.FormattatoreDouble;
 
@@ -22,6 +26,8 @@ public abstract class Conto {
 	
 	private static final int BONUS_APERTURA = 1000;
 	private static final int TASSAZIONE = 26;
+	
+	private static final Logger logger = LogManager.getLogger(Conto.class.getName());
 	
 	public Conto(String titolare, LocalDate dataApertura, double tassoInteresseAnnuo) {
 		this.titolare = titolare;
@@ -75,11 +81,22 @@ public abstract class Conto {
 		this.movimenti.add(movimento);
 	}
 	
+	//per ogni movimento viene calcolato l'interesse generato nel periodo tra
+	//la data del movimento precedente e la data del movimento corrente e l'interesse
+	//viene aggiunto a interessiTotali
 	private void generaInteressi() {
 		this.movimenti.forEach(movimento -> {
 			if(!movimento.getTipoMovimento().equals(TipoMovimento.APERTURA)) {
-				this.interessiTotali = FormattatoreDouble.formatta(this.interessiTotali + calcolaInteresseTraMovimenti(movimento, movimenti.get(movimenti.indexOf(movimento) - 1)));
+				Movimento movimentoPrecedente = movimenti.get(movimenti.indexOf(movimento) - 1);
+				double interesse = calcolaInteresseTraMovimenti(movimento, movimentoPrecedente);
+				this.interessiTotali = FormattatoreDouble.formatta(this.interessiTotali + interesse);
 				this.interessiFineAnno.put(movimento.getData().getYear(), this.interessiTotali);
+				logger.debug("interesse tra " + movimentoPrecedente.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) 
+						+ " e " + movimento.getData().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+						+ " : (" + movimentoPrecedente.getSaldoFinale()
+						+ " * " + (int)ChronoUnit.DAYS.between(movimentoPrecedente.getData(), movimento.getData())
+						+ " * " + tassoInteresseGiornaliero
+						+ ") / 100 = " + interesse);
 			}
 		});
 	}
@@ -114,32 +131,5 @@ public abstract class Conto {
 	public double calcolaSaldoFinaleAnno(int anno) {
 		return FormattatoreDouble.formatta(getSaldoAnno(anno) + calcolaInteressiNettiAnno(anno));
 	}
-	
-//	private double calcolaInteresse(Movimento movimento) {
-//	//esclude l'apertura del conto dal calcolo
-//	if(movimenti.indexOf(movimento) != 0) {
-//		Movimento movimentoPrecedente = movimenti.get(movimenti.indexOf(movimento) - 1);
-//		return FormattatoreDouble.formatta(
-//				(FormattatoreDouble.formatta(
-//						movimentoPrecedente.getSaldoFinale()
-//						* ((int)ChronoUnit.DAYS.between(movimentoPrecedente.getData(), movimento.getData()))
-//						* tassoInteresseGiornaliero)
-//						) / 100);
-//	}
-//	//alla data dell'apertura gli interessi accumulati sono pari a 0 
-//	return 0;
-//}
-	
-	//per ogni movimento viene calcolato l'interesse generato nel periodo tra
-	//la data del movimento precedente e la data del movimento corrente e l'interesse
-	//viene aggiunto a interessiTotali
-//	public void generaInteressi() {
-//		movimenti.forEach(movimento -> {
-//			this.interessiTotali = 
-//					FormattatoreDouble.formatta(this.interessiTotali + this.calcolaInteresse(movimento)
-//					//viene aggiunto l'interesse generato
-//					+ FormattatoreDouble.formatta(this.tassoInteresseGiornaliero * this.saldo));
-//		});
-//	}
 	
 }
