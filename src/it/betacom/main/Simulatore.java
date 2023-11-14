@@ -46,5 +46,10 @@ public class Simulatore {
 		investimento.preleva(LocalDate.of(2023, 9, 13), random.nextInt(IMPORTO_MASSIMO) + 1);
 		investimento.versa(LocalDate.of(2023, 10, 22), random.nextInt(IMPORTO_MASSIMO) + 1);
 		investimento.preleva(LocalDate.of(2023, 11, 3), random.nextInt(IMPORTO_MASSIMO) + 1);
+		
+		//chiusura conti nel giorno corrente
+		corrente.chiudi(LocalDate.now());
+		deposito.chiudi(LocalDate.now());
+		investimento.chiudi(LocalDate.now());
 	}
 }

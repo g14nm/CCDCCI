@@ -16,11 +16,8 @@ public class Main {
 		ContoDeposito deposito = new ContoDeposito("Mario Rossi", LocalDate.of(2021, 3, 4));
 		ContoInvestimento investimento = new ContoInvestimento("Mario Rossi", LocalDate.of(2021, 4, 20), new Random().nextInt(200) + 1 - 100);
 		
+		//simulazione di operazioni nei vari conti
 		Simulatore.simula(corrente, deposito, investimento);
-		
-		corrente.chiudi(LocalDate.now());
-		deposito.chiudi(LocalDate.now());
-		investimento.chiudi(LocalDate.now());
 		
 		EsportazioneBolletta.creaBollettaInPdf(corrente, 2021);
 		EsportazioneBolletta.creaBollettaInPdf(corrente, 2022);
@@ -33,6 +30,7 @@ public class Main {
 		EsportazioneBolletta.creaBollettaInPdf(investimento, 2021);
 		EsportazioneBolletta.creaBollettaInPdf(investimento, 2022);
 		EsportazioneBolletta.creaBollettaInPdf(investimento, 2023);
+		
 	}
 	
 }
