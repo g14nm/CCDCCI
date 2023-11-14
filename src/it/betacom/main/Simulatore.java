@@ -9,43 +9,7 @@ import it.betacom.model.ContoInvestimento;
 
 public class Simulatore {
 	
-	private static final int IMPORTO_MASSIMO = 1000;
-
-//	public static void simula(ContoCorrente corrente, ContoDeposito deposito) {
-//		Random random = random;
-//
-//		for(int i = 0; i < NUMERO_OPERAZIONI ; i++) {
-//			operazioneCasuale(
-//					corrente,
-//					random.nextInt(2),
-//					//data casuale all'interno di un anno da data apertura conto fino all'ultimo giorno dell'anno
-//					LocalDate.ofYearDay(ANNO_SIMULAZIONE, random.nextInt(
-//							(int)ChronoUnit.DAYS.between(corrente.getUltimoMovimento().getData(), LocalDate.of(ANNO_SIMULAZIONE, 12, 31))
-//							+ corrente.getUltimoMovimento().getData().getDayOfYear())),
-//					//importo casuale compresa tra 1 e massimo importo
-//					random.nextInt(IMPORTO_MASSIMO) + 1
-//					);
-//			operazioneCasuale(
-//					deposito,
-//					random.nextInt(2),
-//					LocalDate.ofYearDay(ANNO_SIMULAZIONE, random.nextInt(
-//							(int)ChronoUnit.DAYS.between(corrente.getUltimoMovimento().getData(), LocalDate.of(ANNO_SIMULAZIONE, 12, 31))
-//							+ deposito.getUltimoMovimento().getData().getDayOfYear())),
-//					random.nextInt(IMPORTO_MASSIMO) + 1
-//					);
-//		}
-//	}
-//	
-//	private static void operazioneCasuale(Conto conto, int n, LocalDate data, float importo) {
-//		switch(n) {
-//		case 0 :
-//			conto.versa(data, importo);
-//			break;
-//		case 1 :
-//			conto.preleva(data, importo);
-//			break;
-//		}
-//	}
+	private static final int IMPORTO_MASSIMO = 5000;
 	
 	public static void simula(ContoCorrente corrente, ContoDeposito deposito, ContoInvestimento investimento) {
 		Random random = new Random();
