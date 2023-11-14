@@ -1,5 +1,8 @@
 package it.betacom.document;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
@@ -16,17 +19,16 @@ public class EsportazioneBolletta {
 	
 	private static final String DIRECTORY = "./Estratto conto/"; 
 	
+	private static final Logger logger = LogManager.getLogger(EsportazioneBolletta.class.getName());
+	
 	public static void creaBollettaInPdf(Conto conto, int anno) {
-		String nomeFile = DIRECTORY + "EC_"
-				+ anno
-				+ "_" + (conto.getClass().equals(ContoCorrente.class) 
-						? "corrente" 
-								: (conto.getClass().equals(ContoDeposito.class)
-										? "deposito"
-												: "investimento")
-						)
-				+ "_" + conto.getTitolare()
-				+ ".pdf";
+		String tipoConto = conto.getClass().equals(ContoCorrente.class) 
+				? "corrente" 
+						: (conto.getClass().equals(ContoDeposito.class)
+								? "deposito"
+										: "investimento");
+		
+		String nomeFile = DIRECTORY + "EC_" + anno + "_" + tipoConto + "_" + conto.getTitolare() + ".pdf";
 
 		try {
 			//Inizializzazione documento PDF
@@ -44,15 +46,13 @@ public class EsportazioneBolletta {
 			
 			//intestazione telefonate ed elenco telefonate
 			Paragraph movimenti = new Paragraph()
-					.add(new Text(Layout.intestazioneMovimenti())
-							.setBold())
+					.add(new Text(Layout.intestazioneMovimenti()).setBold())
 					.add(Layout.movimenti(conto.getMovimentiAnno(anno)));
 			
 			//statistiche e totale
 			Paragraph fine = new Paragraph()
 					.add(Layout.interessi(conto, anno))
-					.add(new Text(Layout.totale(conto, anno))
-							.setBold())
+					.add(new Text(Layout.totale(conto, anno)).setBold())
 					.add(Layout.separatoreRighe());
 
 			//Aggiunta contenuti al documento
@@ -62,9 +62,10 @@ public class EsportazioneBolletta {
 
 			//Chiusura documento
 			document.close();
-
+			
+			logger.info("Generato pdf dell'estratto conto del " + anno + " per conto " + tipoConto);		
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 	}
 	
