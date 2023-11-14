@@ -25,7 +25,7 @@ public abstract class Conto {
 	private Map<Integer, Double> interessiFineAnno;
 	
 	private static final int BONUS_APERTURA = 1000;
-	private static final int TASSAZIONE = 26;
+	private static final int TASSA_INTERESSI_LORDI= 26;
 	
 	private static final Logger logger = LogManager.getLogger(Conto.class.getName());
 	
@@ -58,8 +58,10 @@ public abstract class Conto {
 	}
 	
 	public void preleva(LocalDate data, double importo) {
-		this.aggiungiMovimento(new Movimento(TipoMovimento.PRELIEVO, data, importo, this.saldo - importo));
-		this.saldo -= importo;
+		if(importo <= this.saldo) {
+			this.aggiungiMovimento(new Movimento(TipoMovimento.PRELIEVO, data, importo, this.saldo - importo));
+			this.saldo -= importo;
+		}
 	}
 	
 	public void versa(LocalDate data, double importo) {
@@ -95,7 +97,7 @@ public abstract class Conto {
 			for(int i = (anno == this.dataApertura.getYear()) ? 1 : 0; i < movimentiAnno.size(); i++) {
 				//se l'indice è 0 considera come movimento precedente l'ultimo dell'anno prima
 				Movimento movimentoPrecedente = (i == 0) 
-						? this.movimenti.get(anno - 1).get(this.movimenti.get(anno - 1).size() - 1)
+						? this.getUltimoMovimentoInAnno(anno - 1)
 								: movimentiAnno.get(i - 1);
 				double interesse = calcolaInteresseTraMovimenti(movimentiAnno.get(i), movimentoPrecedente);
 				this.interessiTotali = FormattatoreDouble.formatta(this.interessiTotali + interesse);
@@ -124,6 +126,10 @@ public abstract class Conto {
 		+ ") / 100 = " + interesse);
 	}
 	
+	private Movimento getUltimoMovimentoInAnno(int anno) {
+		return this.movimenti.get(anno).get(this.movimenti.get(anno).size() - 1);
+	}
+	
 	public List<Movimento> getMovimentiAnno(int anno) {
 		return this.movimenti.get(anno);
 	}
@@ -138,7 +144,7 @@ public abstract class Conto {
 	}
 	
 	public double calcolaInteressiNettiAnno(int anno) {
-		return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) - FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessiFineAnno.get(anno) * TASSAZIONE)) / 100));
+		return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) - FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessiFineAnno.get(anno) * TASSA_INTERESSI_LORDI)) / 100));
 	}
 	
 	public double calcolaSaldoFinaleAnno(int anno) {
