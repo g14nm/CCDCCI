@@ -27,7 +27,7 @@ public abstract class Conto {
 	private static final int BONUS_APERTURA = 1000;
 	private static final int TASSA_INTERESSI_LORDI= 26;
 	
-	private static final Logger logger = LogManager.getLogger(Conto.class.getName());
+	private final Logger logger;
 	
 	public Conto(String titolare, LocalDate dataApertura, double tassoInteresseAnnuo) {
 		this.titolare = titolare;
@@ -36,6 +36,7 @@ public abstract class Conto {
 		this.interessiTotali = 0;
 		this.movimenti = new HashMap<Integer, List<Movimento>>();
 		this.interessiFineAnno = new HashMap<Integer, Double>();
+		logger = LogManager.getLogger(this.getClass().getName());
 		this.apri(dataApertura);
 	}
 	
@@ -144,6 +145,8 @@ public abstract class Conto {
 	}
 	
 	public double calcolaInteressiNettiAnno(int anno) {
+		if(this.getClass().equals(ContoInvestimento.class))
+			return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) + FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessiFineAnno.get(anno) * TASSA_INTERESSI_LORDI)) / 100));
 		return FormattatoreDouble.formatta(getInteressiLordiAnno(anno) - FormattatoreDouble.formatta((FormattatoreDouble.formatta(this.interessiFineAnno.get(anno) * TASSA_INTERESSI_LORDI)) / 100));
 	}
 	
